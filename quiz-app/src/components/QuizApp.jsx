@@ -1,32 +1,41 @@
 import React, { Component } from 'react';
-import { QuizConsumer} from "../context/QuizContext";
-import Question from "./Question";
-import Result from "./Result";
+import { QuizConsumer } from '../context/QuizContext';
+import Question from './Question';
+import Result from './Result';
 
 class QuizApp extends Component {
     render() {
         return (
-
             <QuizConsumer>
                 {(value) => {
-                    const {questions, currentQuestionIndex, showResults, score, restartQuiz, handleAnswer} = value;
-                    if (showResults) {
-                        return (
-                        <Result score={score}
-                         total={questions.length} 
-                         onRestart={restartQuiz} 
-                        />
-                        );
+                    const {
+                        questions,
+                        currentQuestion,
+                        score,
+                        showResult,
+                        handleAnswer,
+                        handleRestart,
+                    } = value;
 
+                    if (showResult) {
+                        return (
+                            <Result
+                                score={score}
+                                total={questions.length}
+                                onRestart={handleRestart}
+                            />
+                        );
                     }
 
+
                     return (
-                        <div>
-                            <h1>Quiz App</h1>
-                            <p>Câu {currentQuestionIndex + 1}/ {questions.length}</p>
+                        <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+                            <h1 style={{ color: '#cc0000', marginBottom: '24px' }}>Quiz App</h1>
                             <Question
-                                question={questions[currentQuestionIndex].question}
-                                options={questions[currentQuestionIndex].options}
+                                questionNumber={currentQuestion + 1}
+                                total={questions.length}
+                                question={questions[currentQuestion].question}
+                                options={questions[currentQuestion].options}
                                 onAnswer={handleAnswer}
                             />
                         </div>
@@ -38,5 +47,3 @@ class QuizApp extends Component {
 }
 
 export default QuizApp;
-                        
-                
